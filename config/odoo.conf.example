@@ -1,3 +1,10 @@
+# ==============================================================================
+# CONFIGURATION TEMPLATE
+# ==============================================================================
+# Petunjuk: Salin file ini menjadi 'odoo.conf' (cp odoo.conf.example odoo.conf)
+# lalu sesuaikan nilainya dengan kebutuhan environment Anda.
+# ==============================================================================
+
 [options]
 addons_path = /mnt/extra-addons/custom1
 data_dir = /var/lib/odoo
