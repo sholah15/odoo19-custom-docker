@@ -17,8 +17,17 @@ cd odoo19-custom-docker
 # Salin dan sesuaikan env
 cp .env.example .env
 
+# Salin dan sesuaikan odoo.conf
+cd config
+cp odoo.conf.example odoo.conf
+cd ..
+
 # Jalankan
-docker compose up -d
+docker compose up -d --build
+
+#restart jika terdapat perubahan pada file compose
+docker compose down
+docker compose up -d 
 ```
 
 Akses Odoo di: `http://localhost:8069`
@@ -31,6 +40,7 @@ docker compose ps            # Cek status
 docker compose stop          # Hentikan service
 docker compose down          # Hentikan & hapus container
 docker compose down -v       # ⚠️ Hapus semua termasuk data
+docker compose up -d         # restart docker compose
 docker compose up -d --build # Rebuild & restart
 ```
 
@@ -41,6 +51,7 @@ odoo19-custom-docker/
 ├── docker-compose.yml
 ├── .env
 ├── addons/
+│   └── custom/
 ├── config/
 │   └── odoo.conf
 └── README.md
