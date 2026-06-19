@@ -1,4 +1,5 @@
 data/
+config/odoo.conf
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
