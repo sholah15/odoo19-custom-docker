@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:18 # atau tentukan versi spesifik Anda
+    container_name: db2
+    ports:
+      - "16432:5432"
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_DB=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./data/postgres-data:/var/lib/postgresql/data/pgdata
+    networks:
+      - pg18-network
+
+  odoo:
+    build: .
+    image: odoo:19.0 # Pastikan tag versi sesuai dengan yang Anda inginkan
+    container_name: odoo19
+    ports:
+      - "8070:8069"
+    volumes:
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - HOST=db2
+      - USER=odoo
+      - PASSWORD=odoo
+      # --- KONFIGURASI INTEGRASI SIGNOZ (OPENTELEMETRY) ---
+      - OTEL_SERVICE_NAME=odoo-v19-app
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://172.17.0.1:4318/v1/traces
+    networks:
+      - pg18-network
+    command: opentelemetry-instrument odoo
+networks:
+  pg18-network:
+    driver: bridge
