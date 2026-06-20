@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: ${DB_IMAGE}
@@ -12,9 +10,9 @@ services:
       - POSTGRES_DB=${DB_NAME}
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - postgres18-data:/var/lib/postgresql/data/pgdata
+      - db-data:/var/lib/postgresql/data/pgdata
     networks:
-      - pg18-network
+      - postgres-network
 
   odoo:
     build: .
@@ -30,21 +28,19 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
-      - HOST=${DB_HOST}
-      - USER=${DB_USER}
-      - PASSWORD=${DB_PASSWORD}
-
       # --- KONFIGURASI INTEGRASI SIGNOZ (OPENTELEMETRY) ---
       - OTEL_SERVICE_NAME=${OTEL_SERVICE_NAME}
       - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
     networks:
-      - pg18-network
+      - postgres-network
     command: opentelemetry-instrument odoo
 
 volumes:
-  postgres18-data:
+  db-data:
+    name: ${DB_CONTAINER_NAME}-data
+    driver: local
 
 networks:
-  pg18-network:
-    name: pg18-network
+  postgres-network:
+    name: ${DB_CONTAINER_NAME}-network
     driver: bridge
