@@ -51,8 +51,7 @@ odoo19-custom-docker/
 ├── docker-compose.yml
 ├── .env
 ├── addons/
-│   └── custom/
-├── config/
-│   └── odoo.conf
-└── README.md
+│   └── odoo19-custom-addons/
+└── config/
+    └── odoo.conf
 ```
