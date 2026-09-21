@@ -1,3 +1,3 @@
-[submodule "addons/custom1"]
-	path = addons/custom1
+[submodule "addons/odoo19-custom-addons"]
+	path = addons/odoo19-custom-addons
 	url = https://github.com/sholah15/odoo19-custom-addons.git
